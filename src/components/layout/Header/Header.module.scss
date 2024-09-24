@@ -6,19 +6,20 @@
    height: 80px;
    padding: 10px 0;
    @include flex($align: stretch);
-   transition: 0.1s;
+   // transition: 0.1s;
    // transition: 0.3s;
    // &.active {
    //    background-color: rgba(0, 0, 0, 0.434);
    // }
    // backdrop-filter: blur(1px);
    // border-bottom: 2px solid $black;
-   font-family: $font-corbert;
+   font-family: $font-poppins;
    position: fixed;
    top: 0;
    left: 0;
    z-index: 990;
    backdrop-filter: blur(2px);
+   background: var(--bg-primary);
    &__content {
       display: flex;
       flex-direction: row;
@@ -29,7 +30,7 @@
    }
 
    &__control {
-      @include flex();
+      @include flex($justify: end);
       gap: 30px;
       margin-left: auto;
 
@@ -45,152 +46,9 @@
             @include flex($justify: center);
             gap: 13px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 200;
          }
          border-radius: 10px;
-      }
-   }
-
-   .header__profile {
-      border-radius: 18px;
-
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      @include flex($justify: center);
-      padding: 8px 25px;
-      gap: 7px;
-
-      font-size: 14px;
-      font-weight: 400;
-      text-decoration: none;
-      text-transform: uppercase;
-      color: white;
-      background: transparent;
-   }
-   &__btn {
-      display: flex;
-   }
-
-   .lang {
-      color: white;
-      position: relative;
-      font-size: 16px;
-
-      font-family: $font-corbert;
-      font-weight: 300;
-      text-transform: uppercase;
-
-      &_text {
-         width: 100%;
-      }
-
-      &_item {
-         @include flex();
-
-         gap: 10px;
-         width: 100%;
-         padding: 10px;
-         cursor: pointer;
-         &:hover {
-            background: rgba(255, 255, 255, 0.185);
-         }
-      }
-
-      &_list {
-         // @include flex($direction: column, $align: start);
-         gap: 10px;
-         position: absolute;
-         left: 0;
-         width: 100%;
-         top: 100%;
-         height: 0;
-         transition: 0.3s;
-         z-index: 99999;
-         background: rgba(0, 0, 0, 0.507);
-         border-radius: 5px;
-         overflow-y: scroll;
-         &::-webkit-scrollbar {
-            background: transparent;
-            width: 6px;
-
-            &-button {
-               background: transparent;
-               height: 0;
-            }
-            &-thumb {
-               background: white;
-               border-radius: 999px;
-            }
-         }
-
-         &.open {
-            height: calc(60px * 3);
-         }
-      }
-
-      & img {
-         width: 35px;
-         height: 35px;
-         @include flex($justify: center);
-         padding: 0;
-         margin: 0;
-      }
-
-      &_current {
-         @include flex();
-         gap: 10px;
-         width: 100%;
-         transition: 0.3s;
-         padding: 10px;
-         cursor: pointer;
-         &:hover {
-            background: rgba(255, 255, 255, 0.185);
-            border-radius: 999px;
-         }
-      }
-   }
-
-   .auth__btns {
-      @include flex();
-      background: var(--white);
-      border-radius: 14px;
-      & > a {
-         padding: 11px 25px 15px;
-         border: 2px solid rgba(0, 0, 0, 0.478);
-         color: var(--black);
-         font-size: 16px;
-         text-decoration: none;
-         background: var(--white);
-         font-weight: 800;
-         transition: 0.1s;
-         border-width: 0;
-         background-color: transparent;
-
-         &:first-child {
-            border-radius: 18px 0 0 18px;
-            // border-right-width: 1px;
-         }
-         &:last-child {
-            border-radius: 0 18px 18px 0;
-            // border-left-width: 1px;
-            position: relative;
-
-            // &::before {
-            //    display: block;
-            //    content: '';
-            //    width: 2px;
-            //    height: 50%;
-            //    position: absolute;
-            //    top: 50%;
-            //    left: -1px;
-            //    transform: translateY(-50%);
-            //    background-color: var(--black);
-            //    z-index: 100;
-            //    border-radius: 999px;
-            // }
-         }
-         &:hover {
-            background: rgba(0, 0, 0, 0.127);
-         }
       }
    }
 
@@ -200,11 +58,11 @@
       text-decoration: none;
       opacity: 0.8;
       height: 35px;
-      transition: 0.3s;
+      transition: 0.1s;
       @include flex($justify: start);
       color: var(--contrast);
       font-size: 30px;
-      font-weight: 900;
+      font-weight: 400;
       &__img {
          object-fit: contain;
          height: 100%;
@@ -218,10 +76,10 @@
          @include flex($justify: center, $align: end);
          color: var(--contrast);
          font-size: 30px;
-         font-weight: 900;
+         font-weight: 400;
          & > span {
             color: white;
-            font-weight: 800;
+            font-weight: 400;
             font-size: 18px;
          }
       }
@@ -234,33 +92,6 @@
    &.unactive {
       padding: 5px 0;
       height: 65px;
-      .auth__btns {
-         & > a {
-            padding: 11px 25px 15px;
-            border: 2px solid rgba(0, 0, 0, 0.478);
-            color: var(--black);
-            font-size: 12px;
-            text-decoration: none;
-            background: var(--white);
-            font-weight: 800;
-            transition: 0.3s;
-            border-width: 0;
-            background-color: transparent;
-
-            &:first-child {
-               border-radius: 18px 0 0 18px;
-               // border-right-width: 1px;
-            }
-            &:last-child {
-               border-radius: 0 18px 18px 0;
-               // border-left-width: 1px;
-               position: relative;
-            }
-            &:hover {
-               background: rgba(0, 0, 0, 0.127);
-            }
-         }
-      }
 
       .logo {
          width: 120px;
@@ -272,7 +103,7 @@
          @include flex($justify: start);
          color: var(--contrast);
          font-size: 30px;
-         font-weight: 900;
+         font-weight: 400;
          &__img {
             object-fit: contain;
             height: 100%;
@@ -286,10 +117,10 @@
             @include flex($justify: center, $align: end);
             color: var(--contrast);
             font-size: 24px;
-            font-weight: 900;
+            font-weight: 400;
             & > span {
                color: white;
-               font-weight: 800;
+               font-weight: 400;
                font-size: 18px;
             }
          }
@@ -302,28 +133,21 @@
 }
 
 .authBtn {
-   border: 2px solid $black;
-   border-radius: 999px;
-   padding: 0 30px;
-
-   font-weight: 400;
-   font-size: 18px;
-
-   @include flex;
-   transition: 0.3s;
-
-   gap: 20px;
+   @include flex();
+   border-radius: 14px;
+   padding: 11px 25px;
+   border: 2px solid rgba(0, 0, 0, 0.478);
+   color: var(--black);
+   font-size: 16px;
    text-decoration: none;
-
-   color: $black;
-   & > svg {
-      width: 30px;
-      height: 30px;
-   }
+   background: var(--bg-secondary);
+   font-weight: 500;
+   transition: 0.1s;
+   border-width: 0;
+   cursor: pointer;
 
    &:hover {
-      border-color: $purple;
-      color: $purple;
+      opacity: 0.8;
    }
 }
 
@@ -356,7 +180,7 @@
    display: flex;
    flex-direction: column;
    color: white;
-   font-weight: 300;
+   font-weight: 100;
 
    &Img {
       color: #ffad7e;
@@ -377,7 +201,7 @@
       align-items: center;
       gap: 10px;
       font-size: 14px;
-      font-weight: 400;
+      font-weight: 100;
       line-height: 17px;
       position: relative;
       border-radius: 24px;
@@ -424,7 +248,7 @@
    &Input {
       border-radius: 10px;
       background: $white;
-      font-weight: 400;
+      font-weight: 100;
 
       padding: 10px;
       padding-left: 60px;

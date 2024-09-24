@@ -6,7 +6,7 @@
    min-height: 80px;
    padding: 40px 0 70px 0;
    @include flex($align: stretch);
-   background-color: var(--black);
+   background: var(--bg-primary);
    border-bottom: 2px solid $black;
    color: $white;
    position: relative;
@@ -24,7 +24,7 @@
    &__rights {
       color: #636262;
       font-size: 20px;
-      font-weight: 500;
+      font-weight: 200;
       text-align: center;
       @include flex($direction: column, $justify: start);
       gap: 10px;
@@ -50,8 +50,8 @@
       position: relative;
       font-size: 16px;
 
-      font-family: $font-corbert;
-      font-weight: 300;
+      font-family: $font-poppins;
+      font-weight: 100;
       text-transform: uppercase;
 
       &_text {
@@ -145,14 +145,14 @@
       }
 
       &Name {
-         color: #adadad;
+         color: #f3f3f3;
          text-transform: uppercase;
          font-weight: 500;
       }
 
       &Item {
          color: white;
-         font-weight: 400;
+         font-weight: 200;
          opacity: 0.8;
          cursor: pointer;
          &:hover {
@@ -170,7 +170,7 @@
          line-height: 150%;
          color: #adadad;
          text-transform: uppercase;
-         font-weight: 500;
+         font-weight: 200;
       }
 
       &Main {

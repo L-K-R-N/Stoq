@@ -8,7 +8,7 @@
    justify-content: center;
    width: 100%;
    height: 100%;
-   font-family: $font-corbert;
+   font-family: $font-poppins;
    &Burger {
       @include flex($justify: center);
       width: 40px;
@@ -53,12 +53,12 @@
             text-decoration: none;
             color: $white;
             font-size: 20px;
-            font-weight: 700;
-            transition: 0.3s;
-            opacity: 0.9;
+            font-weight: 400;
+            transition: 0.1s;
+            opacity: 1;
             border-radius: 999px;
             &:hover {
-               opacity: 1;
+               opacity: 0.7;
             }
          }
       }
@@ -116,7 +116,7 @@
             padding: 25px 0;
             font-size: 50px;
             text-transform: uppercase;
-            font-weight: 400;
+            font-weight: 100;
             width: 100%;
             text-align: center;
             letter-spacing: 1px;

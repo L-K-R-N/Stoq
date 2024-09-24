@@ -1,5 +1,4 @@
 import cl from './MainPage.module.scss';
-
 import { useEffect, useState } from 'react';
 import appStore from './assets/appStore.png';
 import appGallery from './assets/appGallery.png';
@@ -7,6 +6,7 @@ import samsungStore from './assets/samsungStore.png';
 import playStore from './assets/playStore.png';
 import Slider from 'react-slick';
 import 'swiper/swiper-bundle.css';
+import { Logo } from '@/components/UI/Logo/Logo';
 
 interface Props {}
 
@@ -100,9 +100,9 @@ const MainPage: React.FC<Props> = () => {
       <div className={cl.mainPage}>
          <div className={cl.mainPage__intro} id="intro">
             <div className={cl.mainPage__intro_container}>
-               <h1 className={cl.mainPage__title}>
-                  ST<span>O</span>Q
-               </h1>
+               {/* ST<span>O</span>
+                  <span>Q</span> */}
+               <Logo className={cl.mainPage__title} />
                <p className={cl.mainPage__desc}>
                   Your Reliable Partner in Asset Management.
                </p>
@@ -112,14 +112,14 @@ const MainPage: React.FC<Props> = () => {
                   {...{
                      ...benefitsSliderSettings,
                      slidesToShow:
-                        windowWidth < 900
+                        windowWidth < 500
                            ? 1
-                           : windowWidth < 1300
+                           : windowWidth < 1060
                              ? 2
-                             : windowWidth < 1900
+                             : windowWidth < 1508
                                ? 3
                                : 4,
-                     centerMode: !(windowWidth < 900),
+                     centerMode: !(windowWidth < 400),
                      autoplaySpeed: 10000,
                   }}
                >
@@ -148,12 +148,12 @@ const MainPage: React.FC<Props> = () => {
                      <li>
                         <p>
                            <span>Discover STOQ</span> — app is designed for
-                           everyone, from households and individuals
-                           toentrepreneurs, small businesses, and mid -
-                           sizedcompanies across all industries. It is the
-                           simplest,lightest, and most user - friendly solution
-                           on themarket, crafted to meet the diverse needs of a
-                           widerange of users.
+                           everyone, from households and individuals to
+                           entrepreneurs, small businesses, and mid-sized
+                           companies across all industries. It is the simplest,
+                           lightest, and most user-friendly solution on the
+                           market, crafted to meet the diverse needs of a wide
+                           range of users
                         </p>
                      </li>
                      <li>
@@ -161,7 +161,7 @@ const MainPage: React.FC<Props> = () => {
                            Whether you're managing daily household stock,
                            personal stocks, or running a business, our app
                            adapts seamlessly to your workflow. Its intuitive
-                           interface ens ures ease of use for beginners, while
+                           interface ensures ease of use for beginners, while
                            its powerful features provide the flexibility and
                            functionality demanded by businesses of all sizes.
                         </p>
@@ -170,8 +170,8 @@ const MainPage: React.FC<Props> = () => {
                         <p>
                            No matter your industry or technical expertise, our
                            app offers a streamlined experience, making it the
-                           perfect tool f or organizing, managing, and tracking
-                           stocks efficiently — without the complexity of other
+                           perfect tool for organizing, managing, and tracking
+                           stocks efficiently—without the complexity of other
                            solutions. Lightweight and fast, it won't overwhelm
                            your devices or your team, allowing everybody to
                            focus on what matters most.
@@ -180,8 +180,8 @@ const MainPage: React.FC<Props> = () => {
                      <li>
                         <p>
                            From home life to business operations, our
-                           <span> STOQ app</span> empowers users with a hassle -
-                           free and versatile tool that grows with you.
+                           <span> STOQ app</span> empowers users with a
+                           hassle-free and versatile tool that grows with you.
                         </p>
                      </li>
                   </ul>
@@ -197,7 +197,7 @@ const MainPage: React.FC<Props> = () => {
                         ...benefitsSliderSettings,
                         slidesToShow:
                            windowWidth < 900 ? 1 : windowWidth < 1400 ? 2 : 3,
-                        centerMode: !(windowWidth < 900),
+                        centerMode: !(windowWidth < 400),
                      }}
                   >
                      {benefits.map((benefit) => (
@@ -223,7 +223,7 @@ const MainPage: React.FC<Props> = () => {
                         {...{
                            ...benefitsSliderSettings,
                            slidesToShow: windowWidth < 900 ? 1 : 2,
-                           centerMode: !(windowWidth < 900),
+                           centerMode: !(windowWidth < 400),
                            autoplaySpeed: 10000,
                         }}
                      >

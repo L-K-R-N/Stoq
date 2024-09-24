@@ -2,7 +2,8 @@ import cl from './Header.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { Menu } from '../Menu/Menu';
 import { Wrapper } from '../Wrapper/Wrapper';
-import logo from './assets/logo.svg';
+import { ThemeSwitcher } from '@/components/UI/ThemeSwitcher/ThemeSwitcher';
+import { Logo } from '@/components/UI/Logo/Logo';
 interface Props {}
 
 export const Header: React.FC<Props> = () => {
@@ -43,26 +44,20 @@ export const Header: React.FC<Props> = () => {
    return (
       <header
          className={[cl.header, offset > 80 ? cl.unactive : ''].join(' ')}
-         style={{
-            background:
-               offset > 80
-                  ? 'rgba(0, 0, 0, 0.434)'
-                  : `rgba(0, 0, 0, ${offset / 200})`,
-         }}
          ref={headerRef}
       >
          <Wrapper>
             <div className={cl.header__content}>
                <a className={cl.logo}>
-                  <img src={logo} alt="logo" className={cl.logo__img} />
+                  {/* <img src={logo} alt="logo" className={cl.logo__img} /> */}
+                  <Logo />
                </a>
 
                <Menu items={menuItems} />
 
                <div className={cl.header__control}>
-                  <div className={cl.auth__btns}>
-                     <a>Parteners access</a>
-                  </div>
+                  <ThemeSwitcher />
+                  <a className={cl.authBtn}>Parteners</a>
                </div>
             </div>
          </Wrapper>

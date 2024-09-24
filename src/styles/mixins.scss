@@ -61,45 +61,45 @@
 // Fonts
 
 @mixin screenTitle {
-   font-weight: 400;
+   font-weight: 100;
    font-size: $size-xl;
    line-height: 140%;
-   font-family: $font-corbert;
+   font-family: $font-poppins;
 }
 
 @mixin h2 {
    font-size: $size-xl;
    line-height: 140%;
-   font-family: $font-corbert;
-   font-weight: 600;
+   font-family: $font-poppins;
+   font-weight: 300;
 }
 
 @mixin h3 {
-   font-weight: 600;
+   font-weight: 300;
    font-size: $size-l;
    line-height: 140%;
-   font-family: $font-corbert;
+   font-family: $font-poppins;
 }
 
 @mixin h5 {
    font-weight: normal;
    font-size: $size-m;
    line-height: 100%;
-   font-family: $font-corbert;
+   font-family: $font-poppins;
 }
 
 @mixin text {
    font-weight: normal;
    font-size: $size-s;
    line-height: 170%;
-   font-family: $font-corbert;
+   font-family: $font-poppins;
 }
 
 @mixin small-text {
    font-weight: normal;
    font-size: $size-xs;
    line-height: 170%;
-   font-family: $font-corbert;
+   font-family: $font-poppins;
 }
 
 // UI
@@ -161,7 +161,7 @@
    font-size: $size-s;
    color: $text-color;
    background: $bg-color;
-   font-weight: 400;
+   font-weight: 100;
    box-shadow: $bottom-shadow;
    text-shadow: $bottom-text-shadow;
 

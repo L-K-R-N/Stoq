@@ -1,6 +1,13 @@
 @import '@/styles/vars';
 @import '@/styles/mixins';
 @import '@/styles/fonts';
+
+:root {
+   --logo-height: 56px;
+   --logo-width: 202px;
+
+   --dot-height: 10px;
+}
 .loaderContainer {
    display: flex;
    justify-content: center;
@@ -14,50 +21,158 @@
    // backdrop-filter: blur(2px);
    z-index: 900;
 }
+@keyframes fall {
+   0% {
+      transform: translate(0, 0); /* Начало из левого угла */
+   }
+   50% {
+      transform: translate(22px, 10px);
+   }
+   // 60% {
+   //    transform: translate(15px, 25px);
+   // }
+   // 80% {
+   //    transform: translate(22px, 30px);
+   // }
+   100% {
+      transform: translate(45px, calc(var(--logo-height)));
+   }
 
-// .loadingAnimation {
-//    width: 300px;
-//    height: 300px;
-// }
+   // 100% {
+   //    transform: translate(
+   //       123px,
+   //       calc((var(--logo-height) / 2) + (var(--dot-height) / 2))
+   //    ); /* Конечная позиция по X */
+   // }
+}
+@keyframes bounce {
+   0% {
+      transform: translate(45px, calc(var(--logo-height)));
+   }
+   50% {
+      transform: translate(80px, 30px);
+   }
+   // 60% {
+   //    transform: translate(15px, 25px);
+   // }
+   // 80% {
+   //    transform: translate(22px, 30px);
+   // }
 
-// .video {
-//    width: 150px;
-//    height: 150px;
-// }
-
-// @keyframes rotate {
-//    from {
-//       transform: rotate(0);
-//    }
-
-//    to {
-//       transform: rotate(3600deg);
-//    }
-// }
-
-// .loaderIcon {
-//    height: 170px;
-//    z-index: 9999;
-//    animation-name: rotate;
-//    animation-duration: 10s;
-// }
-
-.loader {
-   width: 88px;
-   height: 88px;
-   border: 8px solid #fff;
-   border-bottom-color: transparent;
-   border-radius: 50%;
-   display: inline-block;
-   box-sizing: border-box;
-   animation: rotation 1s linear infinite;
+   100% {
+      transform: translate(
+         123px,
+         calc((var(--logo-height) / 2) + (var(--dot-height) / 2))
+      ); /* Конечная позиция по X */
+   }
 }
 
-@keyframes rotation {
+// @keyframes vertical-bounce {
+//    0% {
+//       transform: translateY(0);
+//    }
+//    20% {
+//       transform: translateY(-40px); /* Подъем */
+//    }
+//    40% {
+//       transform: translateY(0); /* Первый удар о "пол" */
+//    }
+//    60% {
+//       transform: translateY(-20px); /* Второй подъем */
+//    }
+//    80% {
+//       transform: translateY(0); /* Второй удар */
+//    }
+//    100% {
+//       transform: translateY(-10px); /* Небольшой подъем в конце */
+//    }
+// }
+
+@keyframes shrink {
    0% {
-      transform: rotate(0deg);
+      transform: scale(1);
    }
    100% {
-      transform: rotate(360deg);
+      transform: scale(0.9); /* Уменьшение */
+   }
+}
+
+@keyframes expansion {
+   0% {
+      transform: scale(0.9);
+   }
+   100% {
+      transform: scale(1); /* Возврат к оригинальному размеру */
+   }
+}
+
+@keyframes move-inside {
+   0% {
+      transform: translate(0, 0);
+   }
+   25% {
+      transform: translate(-10px, 10px); /* Левый нижний угол */
+   }
+   50% {
+      transform: translate(10px, 10px); /* Правый нижний угол */
+   }
+   100% {
+      transform: translate(0, 0); /* Вернуться в центр */
+   }
+}
+
+@keyframes blink {
+   0%,
+   100% {
+      opacity: 1;
+   }
+   50% {
+      opacity: 0;
+   }
+}
+
+.logoContainer {
+   position: relative;
+
+   .logo {
+   }
+
+   .dot {
+      // position: absolute;
+      // width: 10px; /* Изменить на нужный размер */
+      // height: 10px;
+      // background-color: black;
+      // border-radius: 50%;
+      // top: -10px;
+      // left: -10px;
+
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: black;
+      border-radius: 50%;
+
+      // &.dotO {
+      //    animation: horizontal-move 3s linear forwards;
+      //    // vertical-bounce 2s ease-out forwards,
+      //    // shrink 0.5s ease-in-out 3s forwards,
+      //    // move-inside 2s ease-in-out 3.5s forwards,
+      //    // blink 0.5s ease-in-out 6s 2 forwards,
+      //    // expansion 0.5s ease-in-out 7.5s forwards;
+      //    animation-iteration-count: infinite;
+      // }
+
+      // &.dotQ,
+      // &.dotO {
+      //    animation:
+      //       fall 1s linear,
+      //       bounce 1s linear 1s;
+      //    // vertical-bounce 2s ease-out forwards,
+      //    // shrink 0.5s ease-in-out 3s forwards,
+      //    // move-inside 2s ease-in-out 3.5s forwards,
+      //    // blink 0.5s ease-in-out 6s 2 forwards,
+      //    // expansion 0.5s ease-in-out 7.5s forwards;
+      //    animation-iteration-count: infinite;
+      // }
    }
 }
