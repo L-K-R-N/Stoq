@@ -6,7 +6,6 @@ import { useLayoutEffect } from 'react';
 import { useAppDispatch } from './hooks/useAppDispatch';
 import { setTheme, TTheme } from './store/reducers/SettingsSlice';
 import { useAppSelector } from './hooks/useAppSelector';
-import { Loader } from './components/UI/Loader/Loader';
 
 const App = () => {
    const dispatch = useAppDispatch();
@@ -22,8 +21,8 @@ const App = () => {
    return (
       <div className="">
          <Layout>
-            {/* <MainPage /> */}
-            <Loader />
+            <MainPage />
+            {/* <Loader /> */}
          </Layout>
       </div>
    );

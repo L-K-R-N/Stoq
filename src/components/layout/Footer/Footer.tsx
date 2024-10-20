@@ -1,6 +1,5 @@
 import cl from './Footer.module.scss';
 import { useRef, useState } from 'react';
-import { Wrapper } from '../Wrapper/Wrapper';
 interface Props {}
 
 export interface INavList {
@@ -23,7 +22,7 @@ export const Footer: React.FC<Props> = () => {
 
    return (
       <footer className={cl.footer} ref={footerRef}>
-         <Wrapper>
+         <div className={cl.wrapper}>
             <div className={cl.footer__content}>
                <div className={cl.footer__container}>
                   <nav className={cl.footer__nav}>
@@ -45,7 +44,7 @@ export const Footer: React.FC<Props> = () => {
                   </nav>
                </div>
             </div>
-         </Wrapper>
+         </div>
       </footer>
    );
 };

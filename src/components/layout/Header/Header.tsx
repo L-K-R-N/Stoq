@@ -1,9 +1,8 @@
 import cl from './Header.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { Menu } from '../Menu/Menu';
-import { Wrapper } from '../Wrapper/Wrapper';
 import { ThemeSwitcher } from '@/components/UI/ThemeSwitcher/ThemeSwitcher';
-import { Logo } from '@/components/UI/Logo/Logo';
+import logo from './assets/logo.svg';
 interface Props {}
 
 export const Header: React.FC<Props> = () => {
@@ -46,11 +45,11 @@ export const Header: React.FC<Props> = () => {
          className={[cl.header, offset > 80 ? cl.unactive : ''].join(' ')}
          ref={headerRef}
       >
-         <Wrapper>
+         <div className={cl.wrapper}>
             <div className={cl.header__content}>
                <a className={cl.logo}>
-                  {/* <img src={logo} alt="logo" className={cl.logo__img} /> */}
-                  <Logo />
+                  {/* <Logo /> */}
+                  <img src={logo} alt="" />
                </a>
 
                <Menu items={menuItems} />
@@ -60,7 +59,7 @@ export const Header: React.FC<Props> = () => {
                   <a className={cl.authBtn}>Parteners</a>
                </div>
             </div>
-         </Wrapper>
+         </div>
       </header>
    );
 };

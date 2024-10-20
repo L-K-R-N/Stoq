@@ -2,74 +2,74 @@
    fill: var(--contrast);
 }
 
-@keyframes look-left {
-   0% {
-      transform: translateX(0);
-   }
-   50% {
-      transform: translateX(-10px);
-   }
-   100% {
-      transform: translateX(0);
-   }
-}
-
-@keyframes look-right {
-   0% {
-      transform: translateX(0);
-   }
-   50% {
-      transform: translateX(10px);
-   }
-   100% {
-      transform: translateX(0);
-   }
-}
-
-@keyframes blink {
-   0%,
-   100% {
-      opacity: 1;
-   }
-   50% {
-      opacity: 0;
-   }
-}
-@keyframes look {
-   0% {
-      transform: scale(1.4) translateX(-46px);
-   }
-   // 30% {
-   //    transform: scale(1.2) translateX(-80px);
-   // }
-   // 60% {
-   //    transform: scale(0.3);
-   // }
-   // 80% {
-   //    transform: scale(0.9);
-   // }
-   // 45% {
-   //    transform: translateX(10px);
-   // }
-   // 60% {
-   //    transform: translateX(0);
-   // }
-   // // 80% {
-   // //    opacity: 0;
-   // // }
-   // 100% {
-   //    opacity: 0;
-   // }
-
-   //    translateX(0),
-   // translate(-10px, 10px),
-   //  translate(10px, 10px),
-   // translate(0),
-}
-
-// .loaderContainer {
-.dotO,
-.dotQ {
-   animation: look 2s ease-in-out 0s infinite;
-}
+// @keyframes look-left {
+//    0% {
+//       transform: translateX(0);
+//    }
+//    50% {
+//       transform: translateX(-10px);
+//    }
+//    100% {
+//       transform: translateX(0);
+//    }
 // }
+
+// @keyframes look-right {
+//    0% {
+//       transform: translateX(0);
+//    }
+//    50% {
+//       transform: translateX(10px);
+//    }
+//    100% {
+//       transform: translateX(0);
+//    }
+// }
+
+// @keyframes blink {
+//    0%,
+//    100% {
+//       opacity: 1;
+//    }
+//    50% {
+//       opacity: 0;
+//    }
+// }
+// @keyframes look {
+//    0% {
+//       transform: scale(1.4) translateX(-46px);
+//    }
+//    // 30% {
+//    //    transform: scale(1.2) translateX(-80px);
+//    // }
+//    // 60% {
+//    //    transform: scale(0.3);
+//    // }
+//    // 80% {
+//    //    transform: scale(0.9);
+//    // }
+//    // 45% {
+//    //    transform: translateX(10px);
+//    // }
+//    // 60% {
+//    //    transform: translateX(0);
+//    // }
+//    // // 80% {
+//    // //    opacity: 0;
+//    // // }
+//    // 100% {
+//    //    opacity: 0;
+//    // }
+
+//    //    translateX(0),
+//    // translate(-10px, 10px),
+//    //  translate(10px, 10px),
+//    // translate(0),
+// }
+
+// // .loaderContainer {
+// .dotO,
+// .dotQ {
+//    animation: look 2s ease-in-out 0s infinite;
+// }
+// // }

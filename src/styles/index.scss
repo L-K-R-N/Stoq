@@ -55,9 +55,9 @@ body {
 
    &::-webkit-scrollbar {
       width: 10px;
-      background: transparent;
+      background: var(--bg-primary);
       &-thumb {
-         background: var(--bg-primary);
+         background: black;
          border-radius: 99px;
       }
    }

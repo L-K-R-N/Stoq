@@ -11,6 +11,13 @@ export default defineConfig({
          '@': path.resolve(__dirname, 'src'),
       },
    },
+   css: {
+      preprocessorOptions: {
+         scss: {
+            api: 'modern-compiler', // or "modern"
+         },
+      },
+   },
    server: {
       port: 7000,
       host: '0.0.0.0',

@@ -17,18 +17,30 @@
 }
 
 // max-width queries
-@mixin media-max-s {
-   @media screen and (max-width: $breakpoint-small-max) {
+
+@mixin for-small-phone {
+   @media (max-width: 300px) {
       @content;
    }
 }
-@mixin media-max-m {
-   @media screen and (max-width: $breakpoint-medium-max) {
+@mixin for-phone {
+   @media (max-width: 600px) {
       @content;
    }
 }
-@mixin media-max-l {
-   @media screen and (max-width: $breakpoint-large-max) {
+
+@mixin for-tablet {
+   @media (max-width: 900px) {
+      @content;
+   }
+}
+@mixin for-desktop {
+   @media (max-width: 1200px) {
+      @content;
+   }
+}
+@mixin for-big-desktop {
+   @media (max-width: 1800px) {
       @content;
    }
 }
