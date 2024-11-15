@@ -2,7 +2,8 @@ import cl from './Header.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { Menu } from '../Menu/Menu';
 import { ThemeSwitcher } from '@/components/UI/ThemeSwitcher/ThemeSwitcher';
-import logo from './assets/logo.svg';
+import { icons, texts } from '@/constants';
+import { Link } from 'react-router-dom';
 interface Props {}
 
 export const Header: React.FC<Props> = () => {
@@ -27,16 +28,20 @@ export const Header: React.FC<Props> = () => {
          to: 'about',
       },
       {
-         text: 'Benefits',
-         to: 'benefits',
-      },
-      {
          text: 'Download',
          to: 'download',
       },
       {
-         text: 'Feedback',
-         to: 'feedback',
+         text: 'Agreement',
+         to: 'agreement',
+      },
+      {
+         text: 'Support',
+         to: 'support',
+      },
+      {
+         text: 'Pricing',
+         to: 'pricing',
       },
    ]);
 
@@ -47,10 +52,9 @@ export const Header: React.FC<Props> = () => {
       >
          <div className={cl.wrapper}>
             <div className={cl.header__content}>
-               <a className={cl.logo}>
-                  {/* <Logo /> */}
-                  <img src={logo} alt="" />
-               </a>
+               <Link className={cl.logo} to={texts.BASE_URL}>
+                  <img src={icons.logo} alt="" />
+               </Link>
 
                <Menu items={menuItems} />
 

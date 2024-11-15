@@ -2,6 +2,8 @@ import cl from './Menu.module.scss';
 import { FC, useEffect, useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoCloseOutline } from 'react-icons/io5';
+import { Link, useLocation } from 'react-router-dom';
+import { texts } from '@/constants';
 interface Props {
    items: IMenuItem[];
 }
@@ -14,6 +16,12 @@ interface IMenuItem {
 export const Menu: FC<Props> = ({ items }) => {
    const [isOpen, setIsOpen] = useState(false);
    const [offset, setOffset] = useState(0);
+   const location = useLocation();
+
+   // Функция для определения, является ли ссылка активной
+   const isActiveLink = (path: string) => {
+      return location.pathname === path;
+   };
 
    useEffect(() => {
       const handleScroll = () => {
@@ -32,7 +40,7 @@ export const Menu: FC<Props> = ({ items }) => {
          )}
       >
          <button
-            title="Открыть / закрыть меню"
+            title="Toggle menu"
             className={cl.menuBurger}
             onClick={() => setIsOpen(!isOpen)}
          >
@@ -42,13 +50,18 @@ export const Menu: FC<Props> = ({ items }) => {
             <ul className={cl.list}>
                {items?.map((item, index) => (
                   <li key={index} className={cl.listItem}>
-                     <a
-                        href={`#${item.to}`}
-                        className={cl.link}
+                     <Link
+                        to={texts.BASE_URL + item.to}
+                        className={[
+                           cl.link,
+                           isActiveLink(texts.BASE_URL + item.to)
+                              ? cl.activeLink
+                              : '',
+                        ].join(' ')}
                         onClick={() => setIsOpen(!isOpen)}
                      >
                         {item.text}
-                     </a>
+                     </Link>
                   </li>
                ))}
             </ul>

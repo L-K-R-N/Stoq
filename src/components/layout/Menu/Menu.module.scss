@@ -58,8 +58,13 @@
             opacity: 1;
             text-transform: uppercase;
             border-radius: 999px;
+            opacity: 0.7;
             &:hover {
-               opacity: 0.7;
+               opacity: 1;
+            }
+
+            &.activeLink {
+               opacity: 1;
             }
          }
       }

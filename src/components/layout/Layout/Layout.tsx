@@ -1,17 +1,20 @@
 import cl from './Layout.module.scss';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
-import { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
 
-interface Props {
-   children: ReactNode;
-}
+interface Props {}
 
-export const Layout: React.FC<Props> = ({ children }) => {
+export const Layout: React.FC<Props> = () => {
    return (
       <>
          <Header />
-         <main className={cl.main}>{children}</main>
+         <main className={cl.main}>
+            <Suspense>
+               <Outlet />
+            </Suspense>
+         </main>
          <Footer />
       </>
    );
