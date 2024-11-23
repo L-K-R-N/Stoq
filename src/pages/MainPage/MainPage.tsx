@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import cl from './MainPage.module.scss';
 
-import { icons, images } from '@/constants';
+import { icons, images, texts } from '@/constants';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Props {}
 
@@ -47,41 +48,156 @@ const MainPage: React.FC<Props> = () => {
    const [feedbacks] = useState<
       {
          name: string;
-         desc: string;
+         desc: ReactNode;
          photo: string;
          stars: number;
          date: string;
+         role: string;
       }[]
    >([
       {
          photo: images.photo1,
-         name: 'Pavel Durov',
-         desc: 'Be free from having to wait for accounting documents. Inventory data updates in real-time, giving you full control of your situation inst antly.',
+         name: 'Antoine Lefevre',
+         desc: (
+            <div className={cl.text}>
+               <ul>
+                  <li>
+                     I run a construction company and STOQ has really simplified
+                     our operations. No more spreadsheets—every material and
+                     piece of equipment is just a few clicks away in the app,
+                     which is easy for anyone to use. The tracking feature is a
+                     lifesaver, ensuring we always know where our tools are,
+                     whether they&#39;re onsite or in another city. It&#39;s
+                     time-saving and hassle-free. Plus, the real-time delivery
+                     tracking means no more guessing about where our shipments
+                     are.
+                  </li>
+               </ul>
+            </div>
+         ),
          stars: 5,
-         date: 'January 16, 2024',
+         date: 'March 26, 2024',
+         role: 'BIM Coordinator',
       },
       {
          photo: images.photo2,
-         name: 'Ilon Mask',
-         desc: 'Be free from having to wait for accounting documents. Inventory data updates in real-time, giving you full control of your situation inst antly.',
+         name: 'Chloé Moreau',
+         desc: (
+            <div className={cl.text}>
+               <ul>
+                  <li>
+                     I manage a maintenance and installation company, and{' '}
+                     <span>STOQ</span> is a game-changer. It organizes materials
+                     and tools in one place, streamlines management, and
+                     simplifies tracking. The app&#39;s built-in messenger
+                     enhances team communication, ensuring operations run
+                     smoothly and efficiently.
+                  </li>
+               </ul>
+            </div>
+         ),
          stars: 5,
-         date: 'January 16, 2024',
+         date: 'January 14, 2024',
+         role: 'Structural Engineer',
       },
       {
          photo: images.photo1,
-         name: 'Pavel Durov',
-         desc: 'Be free from having to wait for accounting documents. Inventory data updates in real-time, giving you full control of your situation inst antly.',
+         name: 'Bram Janssen',
+         desc: (
+            <div className={cl.text}>
+               <ul>
+                  <li>
+                     We recently started using <span>STOQ</span> on our small
+                     farm and it&#39;s been transformative. The app effortlessly
+                     organizes our seeds, fertilizers, and tools, making
+                     inventory management straightforward. The built-in
+                     messenger is excellent for quick document and photo
+                     sharing, streamlining our operations. Of all the apps
+                     we&#39;ve tried, STOQ combines the most useful features
+                     into one efficient tool. We&#39;re definitely keeping it.
+                  </li>
+               </ul>
+            </div>
+         ),
          stars: 5,
-         date: 'January 16, 2024',
+         date: 'February 21, 2024',
+         role: 'Construction Site Manager',
       },
       {
          photo: images.photo2,
-         name: 'Ilon Mask',
-         desc: 'Be free from having to wait for accounting documents. Inventory data updates in real-time, giving you full control of your situation inst antly.',
+         name: 'Daan Verhoeven',
+         desc: (
+            <div className={cl.text}>
+               <ul>
+                  <li>
+                     <span>STOQ</span> has transformed our inventory process. It
+                     allows us to handle goods in any unit, monitor real-time
+                     stock values, convert prices to different currencies, ideal
+                     for working with international suppliers. The simple,
+                     intuitive interface doesn&#39;t require extensive training,
+                     making it perfect for my team. It&#39;s a really cool tool!
+                  </li>
+               </ul>
+            </div>
+         ),
          stars: 5,
-         date: 'January 16, 2024',
+         date: 'January 30, 2024',
+         role: 'Infrastructure Architect',
+      },
+      {
+         photo: images.photo2,
+         name: 'Émile Fontaine',
+         desc: (
+            <div className={cl.text}>
+               <ul>
+                  <li>
+                     Since implementing <span>STOQ</span> at our clinic,
+                     managing medical supplies has become seamless. This app
+                     keeps us fully stocked with crucial medications through a
+                     few clicks, enabling real-time delivery tracking. Its
+                     messaging system and data archiving capabilities are
+                     essential for coordinating with suppliers and adhering to
+                     healthcare regulations. The intuitive interface saves us
+                     time, allowing our staff to focus more on patient care. As
+                     a clinic head, I find STOQ invaluable for streamlining
+                     operations and maintaining our care standards.
+                  </li>
+               </ul>
+            </div>
+         ),
+         stars: 5,
+         date: 'January 30, 2024',
+         role: 'Site Automation Specialist',
+      },
+      {
+         photo: images.photo2,
+         name: 'Oliver Bennett',
+         desc: (
+            <div className={cl.text}>
+               <ul>
+                  <li>
+                     I never expected a casual chat at the nail salon to
+                     revolutionize my home management! My manicurist raved about{' '}
+                     <span>STOQ</span>. It truly is transformative—not just for
+                     businesses but for chaotic home life too. With three kids,
+                     keeping track of groceries, medications and household items
+                     is a constant struggle. <span>STOQ</span> helps me log
+                     everything from band-aids to baking soda, no matter where
+                     it&#39;s hidden in the house. It even alerts me days before
+                     food expires—no more moldy bread or sour milk surprises.
+                     This app is like having a personal assistant in my pocket,
+                     helping me manage my bustling home efficiently. It’s so
+                     effective, I’m tempted to catalog everything!
+                  </li>
+               </ul>
+            </div>
+         ),
+         stars: 5,
+         date: 'September 15, 2024',
+         role: 'Building Energy Consultant',
       },
    ]);
+   const navigate = useNavigate();
 
    const benefitsSliderSettings = {
       centerMode: true,
@@ -117,8 +233,8 @@ const MainPage: React.FC<Props> = () => {
                   <div className={cl.intro__content_main}>
                      <div className={cl.intro__content_left}>
                         <svg
-                           width="370px"
-                           height="100"
+                           height="60px"
+                           width="100px"
                            viewBox="0 0 202 56"
                            fill="none"
                            xmlns="http://www.w3.org/2000/svg"
@@ -169,12 +285,17 @@ const MainPage: React.FC<Props> = () => {
                            </defs>
                         </svg>
                         <p className={cl.intro__slogan}>
-                           <span>Simplify</span> Your Inventory,{' '}
+                           <span>Simplify</span> Your Inventory, <br />
                            <span>Amplify</span> Your Success.
                         </p>
                      </div>
                      <div className={cl.intro__content_right}>
-                        <button className={cl.intro__btn}>TRY NOW</button>
+                        <button
+                           className={cl.intro__btn}
+                           onClick={() => navigate(texts.BASE_URL + 'download')}
+                        >
+                           TRY NOW
+                        </button>
                      </div>
                   </div>
                   <ul className={cl.intro__content_dignities}>
@@ -194,10 +315,10 @@ const MainPage: React.FC<Props> = () => {
                         windowWidth < 900
                            ? 1
                            : windowWidth < 1200
-                             ? 2
+                             ? 3
                              : windowWidth < 1920
-                               ? 3
-                               : 4,
+                               ? 4
+                               : 5,
                      centerMode: !(windowWidth < 400),
                      autoplaySpeed: 4000,
                      className: cl.intro__sliderFirst,
@@ -207,11 +328,14 @@ const MainPage: React.FC<Props> = () => {
                      <div className={cl.intro__slide} key={feedback.name}>
                         <div className={cl.intro__slideHeader}>
                            <img src={feedback.photo} alt="" />
-                           <h4>{feedback.name}</h4>
+                           <div className={cl.info}>
+                              <h4>{feedback.role}</h4>
+                              <h6>{feedback.name}</h6>
+                           </div>
                         </div>
                         <div className={cl.intro__slideMain}>
                            <p>{feedback.desc}</p>
-                           <span>{feedback.date}</span>
+                           <span className={cl.date}>{feedback.date}</span>
                         </div>
                      </div>
                   ))}
@@ -257,7 +381,7 @@ const MainPage: React.FC<Props> = () => {
 
                   <div className={cl.about__list}>
                      <ul className={cl.about__sublist}>
-                        <li className={cl.counter}>1</li>
+                        {/* <li className={cl.counter}>1</li> */}
                         <li>
                            <span>Discover STOQ</span> — app is designed for
                            everyone, from households and individuals to
@@ -277,7 +401,7 @@ const MainPage: React.FC<Props> = () => {
                         </li>
                      </ul>
                      <ul className={cl.about__sublist}>
-                        <li className={cl.counter}>2</li>
+                        {/* <li className={cl.counter}>2</li> */}
                         <li>
                            No matter your industry or technical expertise, our
                            app offers a streamlined experience, making it the
@@ -310,8 +434,8 @@ const MainPage: React.FC<Props> = () => {
                               : windowWidth < 1200
                                 ? 2
                                 : windowWidth < 1920
-                                  ? 3
-                                  : 4,
+                                  ? 4
+                                  : 5,
                         centerMode: !(windowWidth < 400),
                         autoplaySpeed: 4000,
                         className: cl.benefits__slider,
@@ -342,22 +466,42 @@ const MainPage: React.FC<Props> = () => {
                      <li>
                         <img src={icons.appStore} alt="" />
                         <h4>App Store</h4>
-                        <button>INSTALL NOW</button>
+                        <Link
+                           to={texts.BASE_URL + 'download'}
+                           className={cl.download__btn}
+                        >
+                           INSTALL NOW
+                        </Link>
                      </li>
                      <li>
                         <img src={icons.samsungStore} alt="" />
                         <h4>Galaxy Store</h4>
-                        <button>INSTALL NOW</button>
+                        <Link
+                           to={texts.BASE_URL + 'download'}
+                           className={cl.download__btn}
+                        >
+                           INSTALL NOW
+                        </Link>
                      </li>
                      <li>
                         <img src={icons.playStore} alt="" />
                         <h4>Google Play</h4>
-                        <button>INSTALL NOW</button>
+                        <Link
+                           to={texts.BASE_URL + 'download'}
+                           className={cl.download__btn}
+                        >
+                           INSTALL NOW
+                        </Link>
                      </li>
                      <li>
                         <img src={icons.appGallery} alt="" />
                         <h4>App Gallery</h4>
-                        <button>INSTALL NOW</button>
+                        <Link
+                           to={texts.BASE_URL + 'download'}
+                           className={cl.download__btn}
+                        >
+                           INSTALL NOW
+                        </Link>
                      </li>
                   </ul>
                </div>

@@ -1,9 +1,9 @@
 @import '@/styles/vars';
 @import '@/styles/mixins';
 @import '@/styles/fonts';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
 html {
    scroll-behavior: smooth;
 }
@@ -121,6 +121,7 @@ body {
 main {
    flex-grow: 1;
    display: flex;
+   background: var(--background-primary);
 }
 
 * {

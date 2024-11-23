@@ -11,7 +11,7 @@ export const Footer: React.FC<Props> = () => {
    const [navLists] = useState<INavList[]>([
       {
          name: 'NAVIGATION',
-         items: ['Intro', 'Benefits', 'About', 'Download'],
+         items: ['About', 'Download', 'Agreement', 'Support', 'Pricing'],
       },
       {
          name: 'contacts',

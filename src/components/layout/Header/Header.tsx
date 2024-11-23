@@ -52,7 +52,7 @@ export const Header: React.FC<Props> = () => {
       >
          <div className={cl.wrapper}>
             <div className={cl.header__content}>
-               <Link className={cl.logo} to={texts.BASE_URL}>
+               <Link className={cl.logo} to={texts.BASE_URL + 'about'}>
                   <img src={icons.logo} alt="" />
                </Link>
 
@@ -60,7 +60,9 @@ export const Header: React.FC<Props> = () => {
 
                <div className={cl.header__control}>
                   <ThemeSwitcher />
-                  <a className={cl.authBtn}>Parteners</a>
+                  <Link to={texts.BASE_URL + 'download'} className={cl.authBtn}>
+                     Parteners
+                  </Link>
                </div>
             </div>
          </div>

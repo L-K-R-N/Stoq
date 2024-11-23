@@ -1,0 +1,29 @@
+/* Стиль для списка стран */
+.custom-dropdown .country-list {
+   background-color: #f5f5f5 !important; /* Серый фон */
+   border-radius: 12px !important; /* Закругленные углы */
+   padding: 0 !important; /* Убираем лишние отступы вокруг списка */
+   margin: 0 !important;
+}
+
+/* Стиль для каждого элемента страны */
+.custom-dropdown .country-list .country {
+   display: flex !important;
+   align-items: center !important; /* Выравнивание флага и текста по вертикали */
+   padding: 8px !important; /* Отступы */
+   font-size: 16px !important; /* Размер шрифта */
+   font-family: 'Poppins', sans-serif !important; /* Шрифт Poppins */
+   background-color: #f5f5f5 !important; /* Серый фон */
+   border-bottom: 1px solid #ddd !important; /* Разделение элементов */
+}
+
+/* Убираем разделительную линию для последнего элемента */
+.custom-dropdown .country-list .country:last-child {
+   border-bottom: none !important;
+}
+
+/* Ховер-эффект для элемента страны */
+.custom-dropdown .country-list .country:hover {
+   background-color: #e0e0e0 !important; /* Светло-серый фон при наведении */
+   cursor: pointer !important;
+}

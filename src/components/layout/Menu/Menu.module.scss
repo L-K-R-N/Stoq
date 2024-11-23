@@ -30,15 +30,15 @@
 
       @include flex();
 
-      &.unactive {
-         .list {
-            &Item {
-               & > a {
-                  font-size: 22px !important;
-               }
-            }
-         }
-      }
+      // &.unactive {
+      //    .list {
+      //       &Item {
+      //          & > a {
+      //             font-size: 18px !important;
+      //          }
+      //       }
+      //    }
+      // }
    }
 
    .list {
@@ -52,7 +52,7 @@
          & > a {
             text-decoration: none;
             color: $white;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 300;
             transition: 0.1s;
             opacity: 1;
@@ -120,7 +120,7 @@
          }
          & > a {
             padding: 25px 0;
-            font-size: 50px;
+            font-size: 20px;
             text-transform: uppercase;
             font-weight: 100;
             width: 100%;

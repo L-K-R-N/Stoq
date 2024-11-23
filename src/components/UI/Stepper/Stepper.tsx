@@ -1,98 +1,98 @@
-import React, { useState } from 'react';
+import React, { ReactNode } from 'react';
+import cl from './Stepper.module.scss';
+
+export interface IStep {
+   item: ReactNode;
+   isComplited: boolean;
+}
 
 type StepperProps = {
-   steps: number;
-   currentStep: number;
-   onStepChange: (step: number) => void;
+   steps: IStep[];
+   currentStepIndex: number;
+   onStepChange: (currentStepIndex: number, newStepIndex: number) => void;
 };
 
 const Stepper: React.FC<StepperProps> = ({
    steps,
-   currentStep,
+   currentStepIndex,
    onStepChange,
 }) => {
+   const handleStepChange = (
+      currentStepIndex: number,
+      newStepIndex: number,
+   ) => {
+      onStepChange(currentStepIndex, newStepIndex);
+
+      console.log(currentStepIndex, newStepIndex);
+   };
    return (
-      <div style={styles.container}>
-         {[...Array(steps)].map((_, index) => {
-            const isCompleted = index < currentStep;
-            const isActive = index === currentStep;
+      <div className={cl.container}>
+         <div className={cl.indicatorContainer}>
+            {steps.map((_, index) => {
+               const isCompleted = index < currentStepIndex;
+               const isActive = index === currentStepIndex;
 
-            let backgroundColor = 'rgba(255, 255, 255, 0.5)';
-            let color = 'gray';
-            let opacity = 0.5;
+               let backgroundColor = 'rgba(255, 255, 255, 0.5)';
+               let color = '#3a3a3a';
+               let opacity = 0.5;
 
-            if (isCompleted) {
-               backgroundColor = 'rgba(0, 128, 0, 0.5)'; // Зеленый с прозрачностью
-               color = 'gray';
-               opacity = 0.5;
-            } else if (isActive) {
-               backgroundColor = 'white'; // Белый для текущего шага
-               opacity = 1;
-            }
+               if (isCompleted) {
+                  backgroundColor = '#cce340'; // Зеленый с прозрачностью
+                  opacity = 0.7;
+               } else if (isActive) {
+                  backgroundColor = 'white';
+                  opacity = 1;
+               }
 
-            return (
-               <React.Fragment key={index}>
-                  {/* Шаг (Кружок) */}
-                  <div
-                     style={{
-                        ...styles.step,
-                        backgroundColor,
-                        color,
-                        opacity,
-                     }}
-                     onClick={() => onStepChange(index)}
-                  >
-                     {index + 1}
-                  </div>
-
-                  {/* Линия между шагами */}
-                  {index < steps - 1 && (
+               return (
+                  <React.Fragment key={index}>
+                     {/* Шаг (Кружок) */}
                      <div
+                        className={cl.step}
                         style={{
-                           ...styles.line,
-                           backgroundColor:
-                              index < currentStep
-                                 ? 'rgba(0, 128, 0, 0.5)' // Зеленая линия
-                                 : 'gray', // Серая линия
+                           backgroundColor,
+                           color,
+                           opacity,
                         }}
-                     />
-                  )}
-               </React.Fragment>
-            );
-         })}
+                        onClick={() =>
+                           handleStepChange(currentStepIndex, index)
+                        }
+                     >
+                        {index + 1}
+                     </div>
+
+                     {/* Линия между шагами */}
+                     {index < steps.length - 1 && (
+                        <div
+                           className={cl.line}
+                           style={{
+                              backgroundColor:
+                                 index < currentStepIndex
+                                    ? '#cce34070' // Зеленая линия
+                                    : 'gray', // Серая линия
+                           }}
+                        />
+                     )}
+                  </React.Fragment>
+               );
+            })}
+         </div>
+         <div className={cl.contentContainer}>
+            {steps.map((step, index) => (
+               <div
+                  className={[
+                     cl.stepContainer,
+                     index === currentStepIndex ? cl.visibleStep : '',
+                  ].join(' ')}
+               >
+                  {step.item}
+               </div>
+            ))}
+         </div>
       </div>
    );
 };
 
 // CSS-in-JS для основных стилей
-const styles: { [key: string]: React.CSSProperties } = {
-   container: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: '100%',
-      padding: '20px',
-   },
-   step: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '40px',
-      height: '40px',
-      borderRadius: '50%',
-      fontSize: '16px',
-      fontWeight: 600,
-      cursor: 'pointer',
-      transition: 'all 0.3s ease',
-      border: '2px solid gray',
-   },
-   line: {
-      flexGrow: 1, // Динамически растягиваем линию
-      height: '2px',
-      borderRadius: '2px',
-      margin: '0 10px',
-      transition: 'background-color 0.3s ease',
-   },
-};
 
 export default Stepper;

@@ -2,52 +2,149 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Select, { GroupBase } from 'react-select';
-import { icons } from '@/constants';
+import Select, { StylesConfig } from 'react-select';
+import { icons, images, texts } from '@/constants';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import './customStyles.css';
+
+import cl from './DownloadForm.module.scss';
+import Stepper, { IStep } from '@/components/UI/Stepper/Stepper';
+import { Link } from 'react-router-dom';
 // Задаем схему валидации с помощью Zod
-const validationSchema = z.object({
-   name: z.string({ required_error: 'Name is required' }),
-   email: z
-      .string({ required_error: 'Email is required' })
-      .email('Wrong email'),
-   phone: z
-      .string()
-      .optional()
-      .refine(
-         (val) => val === '' || /^\+?\d*$/.test(val),
-         'Phone number must only contain digits and +',
-      ),
+
+const getSelectStylesWithCustomParams = (isError: boolean): StylesConfig => {
+   return {
+      control: (base) => ({
+         ...base,
+         borderColor: isError ? 'red' : '#575757',
+         padding: '4px 15px',
+         background: '#575757',
+         borderRadius: '12px',
+         fontSize: '16px',
+         fontWeight: 300,
+         fontFamily: 'Poppins',
+      }),
+      option: (styles) => ({
+         ...styles,
+         background: '#575757',
+         borderRadius: '5px',
+         color: 'white',
+         cursor: 'pointer',
+         fontSize: 16,
+         // height: 40,
+         fontWeight: 300,
+         ':hover': {
+            ...styles[':hover'],
+            color: 'white',
+            background: '#3f3f3f',
+         },
+      }),
+      valueContainer: (styles) => ({
+         ...styles,
+         padding: '0',
+         fontSize: '16px',
+         gap: '5px',
+      }),
+      placeholder: (styles) => ({
+         ...styles,
+         color: '#a3a1a1',
+         padding: 0,
+         margin: 0,
+      }),
+      input: (styles) => ({
+         ...styles,
+         padding: 0,
+         margin: 0,
+         color: 'white',
+      }),
+      menu: (styles) => ({
+         ...styles,
+         background: '#575757',
+         borderRadius: '12px',
+         color: 'white',
+      }),
+      singleValue: (styles) => ({
+         ...styles,
+
+         color: 'white',
+      }),
+
+      clearIndicator: (styles) => ({
+         ...styles,
+         cursor: 'pointer',
+         color: 'white',
+         opacity: 0.7,
+
+         ':hover': {
+            ...styles[':hover'],
+            opacity: 1,
+            color: 'white',
+         },
+      }),
+      dropdownIndicator: (styles) => ({
+         ...styles,
+         cursor: 'pointer',
+         color: 'white',
+         opacity: 0.7,
+
+         ':hover': {
+            ...styles[':hover'],
+            opacity: 1,
+            color: 'white',
+         },
+      }),
+   };
+};
+
+const FirstFormValidationShema = z.object({
+   name: z
+      .string({ required_error: 'is required' })
+      .trim()
+      .min(1, 'is required'),
+   email: z.string({ required_error: 'is required' }).email('is wrong'),
+   phone: z.string().optional(),
+});
+
+const SecondFormValidationSchema = z.object({
    age: z
-      .string({ required_error: 'Age is required' })
-      .regex(/^\d+$/, 'Age must be a number')
+      .string({ required_error: 'is required' })
+      .regex(/^\d+$/, 'must be a number')
       .refine(
          (val) => val !== '0' && Number(val) < 120,
-         'the age must be at least 1 and no more than 120',
+         'must be at least 1 and no more than 120',
       ),
-   platform: z.object({
-      value: z.string(),
-      label: z.string(),
-   }),
-   industry: z.object({
-      value: z.string(),
-      label: z.string(),
-   }),
+   platform: z.object(
+      {
+         value: z.string(),
+         label: z.string(),
+      },
+      { required_error: 'is required' },
+   ),
+   industry: z.object(
+      {
+         value: z.string(),
+         label: z.string(),
+      },
+      { required_error: 'is required' },
+   ),
    terms: z
       .boolean()
       .refine((val) => val === true, 'You must accept the terms'),
 });
 
-type FormData = {
+interface IFirstFormData {
    name: string;
    email: string;
    phone?: string;
+}
+
+interface ISecondFormData {
    age: string;
    platform: SelectOption;
    industry: SelectOption;
    terms: boolean;
-};
+}
 
 export interface SelectOption {
    readonly value: string;
@@ -65,326 +162,415 @@ export const platformOptions: readonly SelectOption[] = [
    { value: 'android', label: 'Android' },
 ];
 
-export const DownloadForm: React.FC = () => {
-   const {
-      control,
-      handleSubmit,
-      formState: { errors },
-   } = useForm<FormData>({
-      resolver: zodResolver(validationSchema),
-   });
+interface DownloadFormProps {}
 
-   const onSubmit = (data: FormData) => {
-      console.log(data);
+export const DownloadForm: React.FC<DownloadFormProps> = ({}) => {
+   const [firstFormData, setFirstFormData] = useState<IFirstFormData>();
+   const [secondFormData, setSecondFormData] = useState<ISecondFormData>();
+   const [firstFormComplited, setFirstFormComplited] = useState(false);
+   const [secondFormComplited, setSecondFormComplited] = useState(false);
+   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+   const FirstStepForm = () => {
+      const {
+         control,
+         handleSubmit,
+         formState: { errors },
+      } = useForm<IFirstFormData>({
+         resolver: zodResolver(FirstFormValidationShema),
+         defaultValues: firstFormData,
+      });
+
+      const onSubmit = (data: IFirstFormData) => {
+         setFirstFormData(data);
+         setFirstFormComplited(true);
+         setCurrentStepIndex(1);
+      };
+
+      // useEffect(() => {
+      //    if (errors.email || errors.phone || errors.name) {
+      //       setFirstFormComplited(true);
+      //    } else {
+      //       setFirstFormComplited(false);
+      //    }
+      // }, [errors]);
+      return (
+         <form onSubmit={handleSubmit(onSubmit)} className={cl.formContainer}>
+            <div>
+               {/* Name */}
+               <div className={cl.inputContainer}>
+                  <label htmlFor="name" className={cl.label}>
+                     Name
+                     {errors.name && (
+                        <span className={cl.error}>{errors.name.message}</span>
+                     )}
+                  </label>
+                  <Controller
+                     name="name"
+                     control={control}
+                     render={({ field }) => (
+                        <input
+                           className={cl.input}
+                           {...field}
+                           placeholder="Name Surname"
+                           style={{
+                              borderColor: errors.name ? 'red' : '#575757',
+                           }}
+                        />
+                     )}
+                  />
+               </div>
+
+               {/* Email */}
+               <div className={cl.inputContainer}>
+                  <label htmlFor="email" className={cl.label}>
+                     Email
+                     {errors.email && (
+                        <span className={cl.error}>{errors.email.message}</span>
+                     )}
+                  </label>
+                  <Controller
+                     name="email"
+                     control={control}
+                     render={({ field }) => (
+                        <input
+                           className={cl.input}
+                           {...field}
+                           placeholder="example@gmail.com"
+                           style={{
+                              borderColor: errors.email ? 'red' : '#575757',
+                           }}
+                        />
+                     )}
+                  />
+               </div>
+
+               {/* Phone */}
+               <div className={cl.inputContainer}>
+                  <label htmlFor="phone" className={cl.label}>
+                     Phone number
+                  </label>
+                  <Controller
+                     name="phone"
+                     control={control}
+                     render={({ field }) => (
+                        //   <input className={cl.input}
+                        //      {...field}
+                        //      placeholder="+31 1 72 89 81 20"
+                        //      onInput={(e) => {
+                        //         const input = e.target as HTMLInputElement;
+                        //         // Удаляем все символы, кроме цифр и +
+                        //         input.value = input.value.replace(/[^+\d]/g, '');
+                        //         field.onChange(input.value); // Обновляем значение в форме
+                        //      }}
+                        //   />
+                        <PhoneInput
+                           {...field}
+                           // country={'us'} // Установите здесь дефолтную страну
+                           //  onlyCountries={['ru', 'us', 'nl', 'de', 'fr']} // Список разрешенных стран (опционально)
+                           onChange={(value) => field.onChange(value)} // Передаем данные в react-hook-form
+                           placeholder="+31 12 23737372"
+                           enableSearch
+                           // inputClass="custom-input"
+                           // buttonClass="custom-dropdown-button"
+                           // dropdownClass="custom-dropdown"
+                           // disableDropdown
+                           // disableCountryGuess
+                           buttonStyle={{
+                              borderRadius: 12,
+                              border: 'none',
+                              background: 'transparent',
+                              // padding: 30,
+                              display: 'none',
+                           }}
+                           // jumpCursorToEnd
+
+                           inputStyle={{
+                              borderRadius: 12,
+                              width: '100%',
+                              padding: '22px 15px 22px 15px',
+                              background: '#575757',
+                              border: `1px solid ${errors.phone ? 'red' : '#575757'}`,
+                              fontSize: 16,
+                              color: 'white',
+                              overflow: 'hidden',
+                           }}
+                           inputClass={cl.input}
+                           containerStyle={{
+                              borderRadius: 12,
+                              overflow: 'hidden',
+                           }}
+                           searchStyle={{
+                              width: '86%',
+                           }}
+                           disableDropdown
+                           disableSearchIcon
+                        />
+                     )}
+                  />
+               </div>
+            </div>
+
+            {/* <div></div> */}
+
+            <button className={cl.btn} type="submit">
+               Next Step
+            </button>
+         </form>
+      );
    };
 
-   //    const [industryOptions, setIndustryOptions] = useState([
-   //       { value: 'Tech', label: 'Tech' },
-   //       { value: 'Finance', label: 'Finance' },
-   //       { value: 'Healthcare', label: 'Healthcare' },
-   //       { value: 'Education', label: 'Education' },
-   //    ]);
+   const SecondStepForm = () => {
+      const {
+         control,
+         handleSubmit,
+         formState: { errors },
+      } = useForm<ISecondFormData>({
+         resolver: zodResolver(SecondFormValidationSchema),
+         defaultValues: secondFormData,
+      });
+
+      const onSubmit = (data: ISecondFormData) => {
+         setSecondFormData(data);
+         setSecondFormComplited(true);
+         setCurrentStepIndex(2);
+
+         console.log({ ...secondFormData });
+      };
+
+      const handleGoBack = () => {
+         setCurrentStepIndex(0);
+      };
+
+      // useEffect(() => {
+      //    if (errors.age || errors.industry || errors.platform || errors.terms) {
+      //       setSecondFormComplited(true);
+      //    } else {
+      //       setSecondFormComplited(false);
+      //    }
+      // }, [errors]);
+
+      return (
+         <form onSubmit={handleSubmit(onSubmit)} className={cl.formContainer}>
+            <div>
+               {/* Age */}
+               <div className={cl.inputContainer}>
+                  <label htmlFor="age" className={cl.label}>
+                     Age
+                     {errors.age && (
+                        <span className={cl.error}>{errors.age.message}</span>
+                     )}
+                  </label>
+                  <Controller
+                     name="age"
+                     control={control}
+                     render={({ field }) => (
+                        <input
+                           className={cl.input}
+                           {...field}
+                           placeholder="18"
+                           style={{
+                              borderColor: errors.age ? 'red' : '#575757',
+                           }}
+                        />
+                     )}
+                  />
+               </div>
+
+               {/* Device Platform */}
+               <div className={cl.inputContainer}>
+                  <label htmlFor="platform" className={cl.label}>
+                     Device platform
+                     {errors.platform && (
+                        <span className={cl.error}>
+                           {errors.platform.message}
+                        </span>
+                     )}
+                  </label>
+                  <Controller
+                     name="platform"
+                     control={control}
+                     render={({ field }) => (
+                        <Select
+                           value={field.value}
+                           options={platformOptions}
+                           placeholder="iOS / Android"
+                           onChange={(selectedOption) =>
+                              field.onChange(selectedOption)
+                           } // Явно вызываем field.onChange
+                           styles={getSelectStylesWithCustomParams(
+                              !!errors.platform,
+                           )}
+                        />
+                     )}
+                  />
+               </div>
+
+               {/* Industry - Custom Select */}
+               <div className={cl.inputContainer}>
+                  <label htmlFor="industry" className={cl.label}>
+                     Industry
+                     {errors.industry && (
+                        <span className={cl.error}>
+                           {errors.industry.message}
+                        </span>
+                     )}
+                  </label>
+                  <Controller
+                     name="industry"
+                     control={control}
+                     render={({ field }) => (
+                        <Select
+                           value={field.value}
+                           options={industryOptions}
+                           placeholder="Your industry"
+                           onChange={(selectedOption) =>
+                              field.onChange(selectedOption)
+                           } // Явно вызываем field.onChange
+                           styles={getSelectStylesWithCustomParams(
+                              !!errors.industry,
+                           )}
+                        />
+                     )}
+                  />
+               </div>
+
+               {/* Terms Checkbox */}
+               <div className={cl.checkboxContainer}>
+                  <Controller
+                     name="terms"
+                     control={control}
+                     render={({ field }) => (
+                        <div className={cl.checkboxWrapper}>
+                           <div
+                              style={{
+                                 position: 'relative',
+                                 width: '25px',
+                                 height: '25px',
+                              }}
+                           >
+                              <div
+                                 className={cl.checkbox}
+                                 style={{
+                                    background: field.value
+                                       ? '#CCE340'
+                                       : 'transparent',
+                                    borderColor: field.value
+                                       ? '#CCE340'
+                                       : 'gray',
+                                 }}
+                              >
+                                 <img
+                                    src={icons.check}
+                                    alt="I accept the terms of the user agreement"
+                                    style={{
+                                       paddingTop: 2,
+                                       width: '90%',
+                                       height: '90%',
+                                       objectFit: 'contain',
+                                       opacity: field.value ? 1 : 0,
+                                    }}
+                                 />
+                              </div>
+                              <input
+                                 type="checkbox"
+                                 checked={field.value}
+                                 onChange={field.onChange}
+                                 onBlur={field.onBlur}
+                                 title="I accept the terms of the user agreement"
+                                 style={{
+                                    position: 'absolute',
+                                    width: '100%',
+                                    height: '100%',
+                                    zIndex: 20,
+                                    opacity: 0,
+                                    cursor: 'pointer',
+                                 }}
+                              />
+                           </div>
+                           <span
+                              className={cl.checkboxLabel}
+                              style={{
+                                 color: errors.terms ? 'red' : '#bababa',
+                              }}
+                           >
+                              I accept the terms of the{' '}
+                              <Link to={texts.BASE_URL + 'agreement'}>
+                                 user agreement
+                              </Link>
+                           </span>
+                        </div>
+                     )}
+                  />
+               </div>
+               <div className={cl.btns}>
+                  <button className={cl.btn} type="submit">
+                     Join the Beta Test
+                  </button>
+                  <button
+                     className={cl.link}
+                     type="button"
+                     onClick={handleGoBack}
+                  >
+                     Previous Step
+                  </button>
+               </div>
+            </div>
+         </form>
+      );
+   };
+
+   const SuccessMessage = () => {
+      return (
+         <div className={cl.successContainer}>
+            <img className={cl.successImage} src={images.blank} alt="success" />
+            <p className={cl.successText}>
+               <span>Thank you</span> for your application! Our team will reach
+               out to you soon. Look for an invitation in{' '}
+               <span className={cl.successTextAccent}>your inbox.</span>
+            </p>
+            <div className={cl.btns}>
+               <Link to={texts.BASE_URL + 'about'} className={cl.btn}>
+                  Home Page
+               </Link>
+               <a className={cl.link}>Read the FAQ</a>
+            </div>
+         </div>
+      );
+   };
+
+   const onStepChange = (currentStepIndex: number, newStepIndex: number) => {
+      if (
+         !steps[currentStepIndex].isComplited &&
+         newStepIndex > currentStepIndex
+      ) {
+         setCurrentStepIndex(currentStepIndex);
+      } else {
+         setCurrentStepIndex(newStepIndex);
+      }
+   };
+
+   const steps: IStep[] = [
+      {
+         item: <FirstStepForm />,
+         isComplited: firstFormComplited,
+      },
+      {
+         item: <SecondStepForm />,
+         isComplited: secondFormComplited,
+      },
+      {
+         item: <SuccessMessage />,
+         isComplited: false,
+      },
+   ];
 
    return (
-      <form onSubmit={handleSubmit(onSubmit)} style={styles.formContainer}>
-         {/* Name */}
-         <div style={styles.inputContainer}>
-            <label htmlFor="name" style={styles.label}>
-               Name
-               {errors.name && (
-                  <span style={{ ...styles.error, marginLeft: '10px' }}>
-                     {errors.name.message}
-                  </span>
-               )}
-            </label>
-            <Controller
-               name="name"
-               control={control}
-               render={({ field }) => (
-                  <input
-                     {...field}
-                     placeholder="Name Surname"
-                     style={{
-                        ...styles.input,
-                        borderColor: errors.name ? 'red' : '#ccc',
-                     }}
-                  />
-               )}
-            />
-         </div>
-
-         {/* Email */}
-         <div style={styles.inputContainer}>
-            <label htmlFor="email" style={styles.label}>
-               Email
-               {errors.email && (
-                  <span style={{ ...styles.error, marginLeft: '10px' }}>
-                     {errors.email.message}
-                  </span>
-               )}
-            </label>
-            <Controller
-               name="email"
-               control={control}
-               render={({ field }) => (
-                  <input
-                     {...field}
-                     placeholder="example@gmail.com"
-                     style={{
-                        ...styles.input,
-                        borderColor: errors.email ? 'red' : '#ccc',
-                     }}
-                  />
-               )}
-            />
-         </div>
-
-         {/* Phone */}
-         <div style={styles.inputContainer}>
-            <label htmlFor="phone" style={styles.label}>
-               Phone number
-            </label>
-            <Controller
-               name="phone"
-               control={control}
-               render={({ field }) => (
-                  //   <input
-                  //      {...field}
-                  //      placeholder="+31 1 72 89 81 20"
-                  //      style={styles.input}
-                  //      onInput={(e) => {
-                  //         const input = e.target as HTMLInputElement;
-                  //         // Удаляем все символы, кроме цифр и +
-                  //         input.value = input.value.replace(/[^+\d]/g, '');
-                  //         field.onChange(input.value); // Обновляем значение в форме
-                  //      }}
-                  //   />
-                  <PhoneInput
-                     {...field}
-                     country={'us'} // Установите здесь дефолтную страну
-                     //  onlyCountries={['ru', 'us', 'nl', 'de', 'fr']} // Список разрешенных стран (опционально)
-                     onChange={(value) => field.onChange(value)} // Передаем данные в react-hook-form
-                     placeholder="+31 1 72 89 81 20"
-                     inputStyle={{
-                        width: '100%',
-                        padding: '10px 10px 10px 60px',
-                        borderRadius: '8px',
-                        border: `1px solid ${errors.phone ? 'red' : '#ccc'}`,
-                     }}
-                  />
-               )}
-            />
-         </div>
-
-         {/* Age */}
-         <div style={styles.inputContainer}>
-            <label htmlFor="age" style={styles.label}>
-               Age
-               {errors.age && (
-                  <span style={{ ...styles.error, marginLeft: '10px' }}>
-                     {errors.age.message}
-                  </span>
-               )}
-            </label>
-            <Controller
-               name="age"
-               control={control}
-               render={({ field }) => (
-                  <input
-                     {...field}
-                     placeholder="18"
-                     style={{
-                        ...styles.input,
-                        borderColor: errors.age ? 'red' : '#ccc',
-                     }}
-                  />
-               )}
-            />
-         </div>
-
-         {/* Device Platform */}
-         <div style={styles.inputContainer}>
-            <label htmlFor="platform" style={styles.label}>
-               Device platform
-               {errors.platform && (
-                  <span style={{ ...styles.error, marginLeft: '10px' }}>
-                     {errors.platform.message}
-                  </span>
-               )}
-            </label>
-            <Controller
-               name="platform"
-               control={control}
-               render={({ field }) => (
-                  <Select
-                     value={field.value}
-                     options={platformOptions}
-                     onChange={(selectedOption) =>
-                        field.onChange(selectedOption)
-                     } // Явно вызываем field.onChange
-                     styles={{
-                        control: (base) => ({
-                           ...base,
-                           borderColor: errors.industry ? 'red' : '#ccc',
-                        }),
-                     }}
-                  />
-               )}
-            />
-         </div>
-
-         {/* Industry - Custom Select */}
-         <div style={styles.inputContainer}>
-            <label htmlFor="industry" style={styles.label}>
-               Industry
-               {errors.industry && (
-                  <span style={{ ...styles.error, marginLeft: '10px' }}>
-                     {errors.industry.message}
-                  </span>
-               )}
-            </label>
-            <Controller
-               name="industry"
-               control={control}
-               render={({ field }) => (
-                  <Select
-                     value={field.value}
-                     options={industryOptions}
-                     onChange={(selectedOption) =>
-                        field.onChange(selectedOption)
-                     } // Явно вызываем field.onChange
-                     styles={{
-                        control: (base) => ({
-                           ...base,
-                           borderColor: errors.industry ? 'red' : '#ccc',
-                        }),
-                     }}
-                  />
-               )}
-            />
-         </div>
-
-         {/* Terms Checkbox */}
-         <div style={styles.checkboxContainer}>
-            <Controller
-               name="terms"
-               control={control}
-               render={({ field }) => (
-                  <div style={styles.checkboxWrapper}>
-                     <div
-                        style={{
-                           position: 'relative',
-                           width: '30px',
-                           height: '30px',
-                        }}
-                     >
-                        <div
-                           style={{
-                              ...styles.checkbox,
-                              background: field.value
-                                 ? '#CCE340'
-                                 : 'transparent',
-                              borderColor: field.value ? '#CCE340' : 'gray',
-                           }}
-                        >
-                           <img
-                              src={icons.check}
-                              alt=""
-                              style={{ width: '100%', height: '100%' }}
-                           />
-                        </div>
-                        <input
-                           type="checkbox"
-                           checked={field.value}
-                           onChange={field.onChange}
-                           onBlur={field.onBlur}
-                           title="I accept the terms of the user agreement"
-                           style={{ ...styles.checkbox, opacity: 0 }}
-                        />
-                     </div>
-                     <span
-                        style={{
-                           ...styles.checkboxLabel,
-                           color: errors.terms ? 'red' : '#333',
-                        }}
-                     >
-                        I accept the terms of the user agreement
-                     </span>
-                  </div>
-               )}
-            />
-         </div>
-
-         <button type="submit" style={styles.submitButton}>
-            Register
-         </button>
-      </form>
+      <>
+         <Stepper
+            steps={steps}
+            currentStepIndex={currentStepIndex}
+            onStepChange={onStepChange}
+         />
+      </>
    );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-   formContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      maxWidth: '400px',
-      margin: '0 auto',
-      padding: '20px',
-   },
-   inputContainer: {
-      marginBottom: '20px',
-   },
-   label: {
-      fontSize: '14px',
-      marginBottom: '5px',
-      display: 'block',
-   },
-   input: {
-      width: '100%',
-      padding: '10px',
-      borderRadius: '8px',
-      border: '1px solid #ccc',
-      fontSize: '14px',
-   },
-   error: {
-      fontSize: '12px',
-      color: 'red',
-      marginTop: '5px',
-      whiteSpace: 'nowrap', // Убираем перенос строк
-      overflow: 'hidden',
-      textOverflow: 'ellipsis', // Добавляем многоточие
-   },
-   checkboxContainer: {
-      marginBottom: '20px',
-   },
-   checkboxWrapper: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '10px',
-   },
-
-   checkbox: {
-      borderRadius: '12px',
-      display: 'block',
-      width: '100%',
-      height: '100%',
-      border: '2px solid gray',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      cursor: 'pointer',
-      padding: 3,
-   },
-   checkboxLabel: {
-      fontSize: '14px',
-   },
-   submitButton: {
-      backgroundColor: '#4CAF50',
-      color: 'white',
-      padding: '10px 20px',
-      border: 'none',
-      borderRadius: '8px',
-      fontSize: '16px',
-      cursor: 'pointer',
-   },
 };

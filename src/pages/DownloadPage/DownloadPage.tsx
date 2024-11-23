@@ -1,75 +1,32 @@
-import { useState } from 'react';
-import { Steps, Button, message } from 'antd';
-import Stepper from '@/components/UI/Stepper/Stepper';
 import { DownloadForm } from '@/components/layout/DownloadForm/DownloadForm';
-
+import cl from './DownloadPage.module.scss';
+import { images } from '@/constants';
 interface Props {}
 
-const steps = [
-   {
-      title: 'Stage 1',
-      content: 'First-content',
-   },
-   {
-      title: 'Stage 2',
-      content: 'Second-content',
-   },
-   {
-      title: 'Final',
-      content: 'Last-content',
-   },
-];
-
-const { Step } = Steps;
-
 const DownloadPage: React.FC<Props> = () => {
-   const [currentStep, setCurrentStep] = useState(0);
-   const totalSteps = 3;
-
-   const handleNext = () => {
-      setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
-   };
-
-   const handlePrevious = () => {
-      setCurrentStep((prev) => Math.max(prev - 1, 0));
-   };
-   const items = steps.map((item) => ({ key: item.title, title: item.title }));
-
-   const getNextBtnText = (currentStep: number, totalSteps: number) => {
-      const isFinalStep = totalSteps - currentStep === 1;
-      const isPrefinalStep = totalSteps - currentStep === 2;
-
-      return isFinalStep
-         ? 'Home Page'
-         : isPrefinalStep
-           ? 'Join the Beta Test'
-           : ' Next Step';
-   };
-
    return (
-      <div style={{ marginTop: 200, width: 500 }}>
-         <Stepper
-            steps={totalSteps}
-            currentStep={currentStep}
-            onStepChange={setCurrentStep}
-         />
-         <DownloadForm />
-         <div
-            style={{
-               display: 'flex',
-               justifyContent: 'space-between',
-               marginTop: '20px',
-            }}
-         >
-            <button
-               onClick={handleNext}
-               disabled={currentStep === totalSteps - 1}
-            >
-               {getNextBtnText(currentStep, totalSteps)}
-            </button>
-            <button onClick={handlePrevious} disabled={currentStep === 0}>
-               Previous
-            </button>
+      <div className={cl.page}>
+         <div className={cl.wrapper}>
+            <div className={cl.pageContent}>
+               <div className={cl.form}>
+                  <div className={cl.titles}>
+                     <h2 className={cl.title}>Join Our Beta Test </h2>
+                     <h3 className={cl.subtitle}>
+                        And Help Us Get Even Better!
+                     </h3>
+                  </div>
+                  <div className={cl.form__container}>
+                     <DownloadForm />
+                  </div>
+               </div>
+               <div className={cl.mockup}>
+                  <img
+                     src={images.mockup}
+                     alt=""
+                     className={cl.mockup__image}
+                  />
+               </div>
+            </div>
          </div>
       </div>
    );
