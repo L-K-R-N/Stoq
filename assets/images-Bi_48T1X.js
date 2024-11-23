@@ -1,0 +1,1 @@
+const o="/Stoq/assets/photo1-dFcXER_B.png",s="/Stoq/assets/photo2-CIBTsK68.png",t="/Stoq/assets/mockup-C1D68SHa.png",n="/Stoq/assets/blank-kG7GM_K9.png",p={photo1:o,photo2:s,mockup:t,blank:n};export{p as i};
